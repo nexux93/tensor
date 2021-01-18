@@ -83,7 +83,7 @@ function render(data, type) {
         case "3":
             const typeThree = `<div class="commentList">
         <div class="block">
-            <h5 class="commentName">${data.name}(<a href="malito:${data.email}">${data.email}</a> )</h5>
+            <h5 class="commentName">${data.name}(<a href="mailto:${data.email}">${data.email}</a> )</h5>
             <div class="commentBody">${data.body}</div>
         </div>
     </div>`
