@@ -5,7 +5,8 @@ const url = "https://jsonplaceholder.typicode.com",
     $addUserListBtn = document.getElementById("addUserElement"),
     $addPostListBtn = document.getElementById("addPostElement"),
     $addCommentsListBtn = document.getElementById("addCommentElement"),
-    $gallery = document.getElementById("gallery");
+    $gallery = document.getElementById("gallery"),
+    errorMsg = "Не удалось получить данные с сервера";
 
 $addUserListBtn.addEventListener("click", eventWatcher);
 $addPostListBtn.addEventListener("click", eventWatcher);
@@ -49,12 +50,13 @@ function eventWatcher(data) {
 
 
 /**
- * @description добавляет шаблон с данными в блок "gallery" первым элементом
+ * @description добавляет шаблон с данными в блок "gallery" первым элементом. Я условился что данные с сервера
+ * могут либо придти в нужном нам формате, либо не придти вообще
  * @param data {Object} объект вернувшийся из промиса
  * @param type {String} тип элемента который хотим добавить
  */
 function render(data, type) {
-
+    if (Object.entries(data).length === 0) return alert(errorMsg);
     switch (type) {
         case "1":
             const typeOne = `<div class="users">
@@ -101,7 +103,7 @@ function getJsonplaceholder(elmUrl, type) {
     fetch(url + elmUrl)
         .then((response) => {
             if (!response.ok) {
-                throw Error(`Не удалось получить данные с сервера.
+                throw Error(`${errorMsg}
             Ответ сервера: ${response.statusText}`);
             }
             return response.json();
@@ -109,5 +111,5 @@ function getJsonplaceholder(elmUrl, type) {
         .then((data) => {
             render(data, type);
         })
-        .catch((reject) => alert(`Не удалось получить данные с сервера.`));
+        .catch((reject) => alert(errorMsg));
 }
